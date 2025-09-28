@@ -205,7 +205,7 @@ switch ( option){
     afficherBulletin();
     break;
     case 0 :
-   printf("Au revoir \n");
+   printf("Youssef vous salue. Au revoir\n");
     break;
 default:printf("Choix invalide\n");
     break;
@@ -219,3 +219,4 @@ return 0;
 
 
 }
+
