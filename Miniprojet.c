@@ -12,7 +12,7 @@ typedef struct {
       float moyenne;
       } Etudiant;
 
-Etudiant classe [30];
+Etudiant classe [Max_etudiant];
 int nbEtudiants = 0;
 void ajouter(){
     if (nbEtudiants>= Max_etudiant ){
@@ -27,11 +27,11 @@ scanf("%s",E.nom);
 printf("prenom :");
 scanf("%s",E.prenom);
 
-for (int i=0;i<4;i++);
+for (int i=0;i<Max_notes;i++)
 {
     E.notes[i]=0;
 }
-   E.moyenne=0
+   E.moyenne=0;
  classe[nbEtudiants]=E;
     nbEtudiants++;
 printf("Étudiant ajouté\n");
@@ -46,37 +46,54 @@ if (nbEtudiants == 0)
  char  cne[20];
     printf("entrer le cne de l etudiant :\n");
     scanf("%s",cne);
-    int trouve=0
-    for (int i=0; i <nbEtudiants;i++);
+    int trouve=0;
+    for (int i=0; i <nbEtudiants;i++)
     {
-        if (strcmp(classe[i].cne, cne) == 0)
-        for (int j=0;j<4;j++)
+        if (strcmp(classe[i].cne, cne) == 0){
+        for (int j=0;j<Max_notes;j++)
         {
              do {
                     printf("Note %d : ", j + 1);
                     scanf("%f", &classe[i].notes[j]);
                 } while (classe[i].notes[j] < 0 || classe[i].notes[j] > 20);
         }
-        
+       trouve = 1;
+            break;
+        }
     }
-    
-void calculerMoyenneEtudiant(){
-float somme = 0;
-            for (int j = 0; j < 4; j++) {
+    if (!trouve) {
+        printf("Étudiant introuvable.\n");  }
+}    
+void calculerMoyenneEtudiant() {
+    if (nbEtudiants == 0) {
+        printf("Aucun étudiant ajouté\n");
+        return;
+    }
+
+    char cne[20];
+    printf("entrer le cne de l etudiant  : ");
+    scanf("%s", cne);
+
+    int trouve = 0;
+
+    for (int i = 0; i < nbEtudiants; i++) {
+        if (strcmp(classe[i].cne, cne) == 0) {
+            float somme = 0;
+            for (int j = 0; j < Max_notes; j++) {
                 somme += classe[i].notes[j];
             }
-            classe[i].moyenne = somme / 4;
-
+            classe[i].moyenne = somme / Max_notes;
             printf("Moyenne calculée : %.2f\n", classe[i].moyenne);
             trouve = 1;
             break;
-
-
-            if (!trouve) {
-        printf("Étudiant introuvable.\n");}
+        }
     }
- 
+
+    if (!trouve) {
+        printf("Étudiant introuvable.\n");
+    }
 }
+
 void calculerMoyenneGenerale(){
       if( nbEtudiants == 0)
 {
@@ -84,12 +101,14 @@ void calculerMoyenneGenerale(){
       return;
 }
 float somme = 0;
-            for (int j = 0; j < 4; j++) {
+        for (int i = 0; i < nbEtudiants; i++) {
+            for (int j = 0; j < Max_notes; j++) {
                 somme += classe[i].notes[j];
             }
+         }    
             
-            
-            float moyenneGen = somme / 4;
+             float moyenneGen = somme / (nbEtudiants * Max_notes);
+ 
           printf("Moyenne generale de la classe : %.2f\n", moyenneGen);
 
 
@@ -103,14 +122,21 @@ void afficherEtudiants() {
 
  printf("\nListe des étudiants :\n");
 
- for (int i = 0; i < 4; i++) {
+ for (int i = 0; i <nbEtudiants ; i++) {
         printf("%s | %s %s | [", classe[i].cne, classe[i].nom, classe[i].prenom);
-        for (int j = 0; j < Max_notes;j++) ;
-            printf("%.2f", classe[i].notes[j]);
-            if (j <Max_notes -1)printf(", ");
+        for (int j = 0; j < Max_notes;j++) 
+             { printf("%.2f", classe[i].notes[j]);
+            if (j <Max_notes - 1){
+             printf(", ");
+            } 
+            
         }
+       
+         printf("] | Moyenne: %.2f\n", classe[i].moyenne);
+      
 
-       printf("] | Moyenne: %.2f\n", classe[i].moyenne);
+        
+    }
 
 
 }    
@@ -127,7 +153,7 @@ void afficherBulletin(){
             printf("CNE : %s\n", classe[i].cne);
             printf("Nom : %s\n", classe[i].nom);
             printf("Prénom : %s\n", classe[i].prenom);
-            printf("Notes : "); ; 
+            printf("Notes : "); 
            for (int j = 0; j < Max_notes ; j++) {
                 printf("%.2f ", classe[i].notes[j]);
             }
@@ -136,51 +162,47 @@ void afficherBulletin(){
             trouve = 1;
             break;
 
-            if (!trouve) {
-    printf("Aucun Etudiant\n");
+           
 
           }
-        }
+        } 
+        if (!trouve) {
+    printf("Aucun Etudiant\n");
     }
  }
 
 int main (){
 int option; 
 
-
-  
-
-
-do
-{
-printf("ajouterEtudiant(3)\n");
-printf("saisirNotes(2)\n");
-printf("calculerMoyenneEtudiant(3)\n");
-printf("calculerMoyenneGenerale(4)\n");
-printf("afficherEtudiants(5)\n");
-printf("afficherBulletin(6)\n");
-printf("Quitter(0)\n");
+do {
+printf("1. AjouterEtudiant\n");
+printf("2. saisirNotes\n");
+printf("3. calculerMoyenneEtudiant\n");
+printf("4. calculerMoyenneGenerale\n");
+printf("5. afficherEtudiants\n");
+printf("6. afficherBulletin\n");
+printf("0. Quitter\n");
 printf(" option: ");
 scanf("%d", &option);
 
 switch ( option){
     case 1 :
-    ajouter()
+    ajouter();
     break;
     case 2 :
-    saisirNotes()
+    saisirNotes();
     break;
     case 3 :
-    calculerMoyenneEtudiant()
+    calculerMoyenneEtudiant();
     break;
     case 4 :
-    calculerMoyenneGenerale()
+    calculerMoyenneGenerale();
     break;
     case 5:
-    afficherEtudiants()
+    afficherEtudiants();
     break;
     case 6:
-    afficherBulletin()
+    afficherBulletin();
     break;
     case 0 :
    printf("Au revoir \n");
@@ -190,11 +212,10 @@ default:printf("Choix invalide\n");
 }
 
 
-while (option !=0);
+} while (option !=0);
 return 0; 
 
 
 
 
 }
-} 
